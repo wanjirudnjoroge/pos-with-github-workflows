@@ -1,5 +1,4 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
 
 
 class ProductBase(BaseModel):
@@ -8,8 +7,7 @@ class ProductBase(BaseModel):
     quantity: int = Field(ge=0)
     category_id: int
     sku: str = Field(min_length=1)
-    supplier_id: Optional[int] = None
-
+    supplier_id: int | None = None
 
 
 class ProductCreate(ProductBase):
@@ -17,12 +15,12 @@ class ProductCreate(ProductBase):
 
 
 class ProductUpdate(BaseModel):
-    name: Optional[str] = Field(default=None, min_length=1)
-    price: Optional[float] = Field(default=None, gt=0)
-    quantity: Optional[int] = Field(default=None, ge=0)
-    category_id: Optional[int] = None
-    sku: Optional[str] = Field(default=None, min_length=1)
-    supplier_id: Optional[int] = None
+    name: str | None = Field(default=None, min_length=1)
+    price: float | None = Field(default=None, gt=0)
+    quantity: int | None = Field(default=None, ge=0)
+    category_id: int | None = None
+    sku: str | None = Field(default=None, min_length=1)
+    supplier_id: int | None = None
 
 
 class ProductResponse(ProductBase):

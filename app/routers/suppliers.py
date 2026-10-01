@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
-from database import get_db
-from app.schemas.suppliers import SupplierCreate, SupplierResponse
+
 from app.repositories.suppliers import supplier_repo
+from app.schemas.suppliers import SupplierCreate, SupplierResponse
+from database import get_db
 
 router = APIRouter(prefix="/suppliers", tags=["Suppliers"])
 
@@ -13,7 +13,7 @@ def create_supplier(payload: SupplierCreate, db: Session = Depends(get_db)):
     return supplier_repo.create(db, payload.model_dump())
 
 
-@router.get("/", response_model=List[SupplierResponse])
+@router.get("/", response_model=list[SupplierResponse])
 def get_suppliers(db: Session = Depends(get_db)):
     return supplier_repo.get_multi(db)
 
@@ -42,4 +42,3 @@ def delete_supplier(supplier_id: int, db: Session = Depends(get_db)):
     if not supplier:
         raise HTTPException(status_code=404, detail="Supplier not found")
     supplier_repo.delete(db, supplier)
-    return None

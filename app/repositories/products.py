@@ -1,17 +1,17 @@
 from sqlalchemy.orm import Session
-from typing import Optional, List
+
 from app.models.products import Product
 from app.schemas.products import ProductCreate, ProductUpdate
 
 
 class ProductRepository:
-    def get_by_id(self, db: Session, product_id: int) -> Optional[Product]:
+    def get_by_id(self, db: Session, product_id: int) -> Product | None:
         return db.query(Product).filter(Product.product_id == product_id).first()
 
-    def get_all(self, db: Session, skip: int = 0, limit: int = 100) -> List[Product]:
+    def get_all(self, db: Session, skip: int = 0, limit: int = 100) -> list[Product]:
         return db.query(Product).offset(skip).limit(limit).all()
 
-    def get_by_sku(self, db: Session, sku: str) -> Optional[Product]:
+    def get_by_sku(self, db: Session, sku: str) -> Product | None:
         return db.query(Product).filter(Product.sku == sku).first()
 
     def create(self, db: Session, product_in: ProductCreate) -> Product:

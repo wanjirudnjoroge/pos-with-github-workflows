@@ -28,3 +28,21 @@ Create and activate a virtual environment:
 ```bash
 python3.10 -m venv .venv
 source .venv/bin/activate
+```
+
+Install the dependencies and run the complete suite from the repository root:
+
+```bash
+python3 -m pip install --upgrade pip
+python3 -m pip install -r app/requirements.txt
+python3 -m pytest
+```
+
+To run one test module:
+
+```bash
+python3 -m pytest tests/test_products.py
+```
+
+GitHub Actions runs the same complete test suite automatically for every push and
+pull request.

@@ -13,9 +13,7 @@ def test_supplier_crud(client):
     assert client.get(f"/suppliers/{supplier_id}").status_code == 200
 
     updated_payload = {**payload, "contact_name": "Beatrice"}
-    update_response = client.put(
-        f"/suppliers/{supplier_id}", json=updated_payload
-    )
+    update_response = client.put(f"/suppliers/{supplier_id}", json=updated_payload)
     assert update_response.status_code == 200
     assert update_response.json()["contact_name"] == "Beatrice"
 

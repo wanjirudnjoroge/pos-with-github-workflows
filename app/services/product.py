@@ -1,7 +1,8 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from app.repositories.products import product_repo
+from sqlalchemy.orm import Session
+
 from app.repositories.category import category_repo
+from app.repositories.products import product_repo
 from app.schemas.products import ProductCreate, ProductUpdate
 
 

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
-from database import get_db
-from app.schemas.products import ProductCreate, ProductUpdate, ProductResponse
+
 from app.repositories.products import product_repo
+from app.schemas.products import ProductCreate, ProductResponse, ProductUpdate
 from app.services.product import product_service
+from database import get_db
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -20,8 +20,8 @@ def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     return product_service.create(db, product)
 
 
-@router.get("", response_model=List[ProductResponse])
-@router.get("/", response_model=List[ProductResponse], include_in_schema=False)
+@router.get("", response_model=list[ProductResponse])
+@router.get("/", response_model=list[ProductResponse], include_in_schema=False)
 def get_all_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return product_repo.get_all(db, skip=skip, limit=limit)
 
@@ -56,4 +56,3 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Product not found"
         )
     product_repo.delete(db, product)
-    return None

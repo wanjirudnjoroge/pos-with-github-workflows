@@ -1,10 +1,9 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
 
 
 class UserBase(BaseModel):
     username: str
-    email: Optional[str] = None
+    email: str | None = None
 
 
 class UserCreate(UserBase):
@@ -29,4 +28,4 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: Optional[str] = None
+    username: str | None = None

@@ -1,10 +1,9 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
 
 
 class CategoryBase(BaseModel):
     name: str = Field(min_length=1)
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class CategoryCreate(CategoryBase):

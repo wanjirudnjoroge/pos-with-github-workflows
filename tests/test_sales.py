@@ -28,9 +28,7 @@ def test_sale_with_insufficient_stock_rolls_back(client, auth_headers, product_r
     response = client.post(
         "/sales",
         headers=auth_headers,
-        json={
-            "items": [{"product_id": product_record["id"], "quantity": 1000}]
-        },
+        json={"items": [{"product_id": product_record["id"], "quantity": 1000}]},
     )
 
     assert response.status_code == 400
@@ -59,7 +57,10 @@ def test_sale_requires_authentication(client, product_record):
 
 
 def test_sale_requires_at_least_one_valid_item(client, auth_headers):
-    assert client.post("/sales", headers=auth_headers, json={"items": []}).status_code == 422
+    assert (
+        client.post("/sales", headers=auth_headers, json={"items": []}).status_code
+        == 422
+    )
     assert (
         client.post(
             "/sales",

@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
-from typing import Optional, List
+
 from app.models.sales import Sale
 
 
 class SaleRepository:
-    def get_by_id(self, db: Session, sale_id: int) -> Optional[Sale]:
+    def get_by_id(self, db: Session, sale_id: int) -> Sale | None:
         return db.query(Sale).filter(Sale.sale_id == sale_id).first()
 
-    def get_all(self, db: Session, skip: int = 0, limit: int = 100) -> List[Sale]:
+    def get_all(self, db: Session, skip: int = 0, limit: int = 100) -> list[Sale]:
         return db.query(Sale).offset(skip).limit(limit).all()
 
     def create(self, db: Session, sale_obj: Sale) -> Sale:

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
-from database import get_db
-from app.schemas.customers import CustomerCreate, CustomerResponse, CustomerUpdate
+
 from app.repositories.customers import customer_repo
+from app.schemas.customers import CustomerCreate, CustomerResponse, CustomerUpdate
+from database import get_db
 
 router = APIRouter(prefix="/customers", tags=["Customers"])
 
@@ -13,7 +13,7 @@ def create_customer(payload: CustomerCreate, db: Session = Depends(get_db)):
     return customer_repo.create(db, payload.model_dump())
 
 
-@router.get("/", response_model=List[CustomerResponse])
+@router.get("/", response_model=list[CustomerResponse])
 def get_customers(db: Session = Depends(get_db)):
     return customer_repo.get_multi(db)
 
@@ -42,4 +42,3 @@ def delete_customer(customer_id: int, db: Session = Depends(get_db)):
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")
     customer_repo.delete(db, customer)
-    return None

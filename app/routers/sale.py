@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from typing import List
-from database import get_db
-from app.schemas.sales import SaleCreate, SaleResponse
-from app.services.sale import sale_service
-from app.services.dependencies import get_current_user
+
 from app.models.users import User
+from app.schemas.sales import SaleCreate, SaleResponse
+from app.services.dependencies import get_current_user
+from app.services.sale import sale_service
+from database import get_db
 
 router = APIRouter(prefix="/sales", tags=["sales"])
 
@@ -25,8 +25,8 @@ def create_sale(
     return sale_service.process_sale(db, sale_data, user_id=current_user.user_id)
 
 
-@router.get("", response_model=List[SaleResponse])
-@router.get("/", response_model=List[SaleResponse], include_in_schema=False)
+@router.get("", response_model=list[SaleResponse])
+@router.get("/", response_model=list[SaleResponse], include_in_schema=False)
 def get_sales(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return sale_service.get_all_sales(db, skip=skip, limit=limit)
 

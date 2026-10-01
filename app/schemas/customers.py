@@ -1,5 +1,4 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
-from typing import Optional
 
 
 class CustomerBase(BaseModel):
@@ -7,6 +6,7 @@ class CustomerBase(BaseModel):
     phone: str = Field(min_length=1)
     email: EmailStr | None = None
     address: str | None = None
+
 
 class CustomerCreate(CustomerBase):
     pass

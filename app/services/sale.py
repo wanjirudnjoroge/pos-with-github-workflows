@@ -1,17 +1,17 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from typing import List, Optional
-from app.schemas.sales import SaleCreate
-from app.models.sales import Sale
+from sqlalchemy.orm import Session
+
 from app.models.sale_items import SaleItem
-from app.repositories.users import user_repo
-from app.repositories.sale import sale_repo
-from app.repositories.products import product_repo
+from app.models.sales import Sale
 from app.repositories.customers import customer_repo
+from app.repositories.products import product_repo
+from app.repositories.sale import sale_repo
+from app.repositories.users import user_repo
+from app.schemas.sales import SaleCreate
 
 
 class SaleService:
-    def get_all_sales(self, db: Session, skip: int = 0, limit: int = 100) -> List[Sale]:
+    def get_all_sales(self, db: Session, skip: int = 0, limit: int = 100) -> list[Sale]:
         return sale_repo.get_all(db, skip=skip, limit=limit)
 
     def get_sale_by_id(self, db: Session, sale_id: int) -> Sale:
@@ -23,7 +23,7 @@ class SaleService:
         return sale
 
     def process_sale(
-        self, db: Session, sale_data: SaleCreate, user_id: Optional[int] = None
+        self, db: Session, sale_data: SaleCreate, user_id: int | None = None
     ) -> Sale:
         user = user_repo.get_by_id(db, user_id)
         if not user:

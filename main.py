@@ -1,13 +1,14 @@
 from fastapi import FastAPI
+
 from app.routers import (
-    products,
-    users,
     category,
     customers,
-    suppliers,
-    sale,
     payments,
+    products,
     receipts,
+    sale,
+    suppliers,
+    users,
 )
 
 app = FastAPI(title="POS System")

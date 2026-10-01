@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
-from database import get_db
-from app.schemas.payments import PaymentCreate, PaymentResponse
+
 from app.repositories.payments import payment_repo
 from app.repositories.sale import sale_repo
+from app.schemas.payments import PaymentCreate, PaymentResponse
+from database import get_db
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
 
@@ -16,7 +16,7 @@ def create_payment(payload: PaymentCreate, db: Session = Depends(get_db)):
     return payment_repo.create(db, payload.model_dump())
 
 
-@router.get("/", response_model=List[PaymentResponse])
+@router.get("/", response_model=list[PaymentResponse])
 def get_payments(db: Session = Depends(get_db)):
     return payment_repo.get_multi(db)
 

@@ -1,16 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
-from typing import Optional, List
-from database import get_db
-from app.schemas.users import UserCreate, UserResponse, Token, UserLogin
+
+from app.models.users import User
 from app.repositories.users import user_repo
+from app.schemas.users import Token, UserCreate, UserResponse
+from app.services.dependencies import get_current_user
 from app.services.security import (
+    create_access_token,
     get_password_hash,
     verify_password,
-    create_access_token,
 )
-from app.services.dependencies import get_current_user
-from app.models.users import User
+from database import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -75,7 +75,7 @@ def get_current_user_profile(current_user: User = Depends(get_current_user)):
     return current_user
 
 
-@router.get("", response_model=List[UserResponse])
+@router.get("", response_model=list[UserResponse])
 def get_all_users(
     skip: int = 0,
     limit: int = 100,

@@ -1,6 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field
 from decimal import Decimal
-from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SaleItemBase(BaseModel):
@@ -16,8 +16,6 @@ class SaleItemResponse(SaleItemBase):
     sale_item_id: int
     sale_id: int
     unit_price: Decimal
-    subtotal: Optional[Decimal] = None
+    subtotal: Decimal | None = None
 
     model_config = ConfigDict(from_attributes=True)
-    
-    
